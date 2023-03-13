@@ -4,8 +4,12 @@
 require './readFDI'
 f = __FILE__
 f = ExerbExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
-def _exit()
+def _exit
   print('Press <Enter> to exit.'); STDIN.gets; exit
+end
+def pErr
+  print $!.class; print ': '; puts $!
+  puts $@[1..-1].join "\n"
 end
 begin
   open(File.join(File.dirname(f), 'patchTS.txt'), 'rb') {|f| PLIST = eval(f.read)}
@@ -38,8 +42,7 @@ if f.read(2) != 'MZ'
   begin
     exef.get_file_offsets(exeFname)
   rescue
-    print $!.class; print ': '; puts $!
-    puts $@[1..-1].join "\n"
+    pErr
     f.close; _exit
   end
 else
@@ -64,8 +67,7 @@ begin
   end
   tasks = recommended if tasks.empty?
 rescue Exception
-  print $!.class; print ': '; puts $!
-  puts $@[1..-1].join "\n"
+  pErr
   _exit
 end
 for i in tasks.uniq
@@ -114,16 +116,16 @@ for i in tasks.uniq
       next unless STDIN.gets.strip.empty?
       if warning1
         print warning1
-        print 'Are you sure to continue anyway? Enter `Y` to confirm or anything else to cancel: '
-        next if STDIN.gets.strip.downcase != 'y'
+        print 'Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
+        next unless STDIN.gets.strip.empty?
       end
     else
       print 'This item is considered as PATCHED. Press <ENTER> to RESTORE it, or type anything to cancel: '
       next unless STDIN.gets.strip.empty?
       if warning2
         print warning2
-        print 'Are you sure to continue anyway? Enter `Y` to confirm or anything else to cancel: '
-        next if STDIN.gets.strip.downcase != 'y'
+        print 'Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
+        next unless STDIN.gets.strip.empty?
       end
     end
     x = PLIST[i][4..-1] # ignore the first 4 elements
@@ -143,12 +145,9 @@ for i in tasks.uniq
       exef.write(d)
     end
   rescue
-    print $!.class; print ': '; puts $!
-    puts $@[1..-1].join "\n"
+    pErr
     print 'Press <ENTER> to continue.'; STDIN.gets
     next
-  rescue Interrupt
-    puts; break
   end
 end
 f.close

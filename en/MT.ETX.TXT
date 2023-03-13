@@ -1,0 +1,873 @@
+|
+LabyrinthRPG TowerOfTheSorcerer
+<C> 1995 by N.W / Transl. Z.Sun
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+I'm selling a blue key at a bargain
+price of 50 gold! Deal?
+    @ Yes
+    @ No
+
+|
+The tower has 50 floors and consists
+of 5 blocks, each with 10 floors.
+Posted to each block is a boss ruling
+that whole area, whom you must defeat
+in order to obtain access to higher
+floors.
+
+|
+I'm selling 5 keys at a package price
+of 50 gold! Deal?
+    @ Yes
+    @ No
+
+|
+When offering gold to an altar, it's
+recommended to raise your DEF instead
+of ATK. However, if you don't raise
+your ATK at all, there might be some
+enemies that you can't ever defeat
+later on.
+
+|
+I'm selling a rare red key for 800
+gold! Deal?
+    @ Yes
+    @ No
+
+|
+Did you notice the hidden tunnels on
+9F, 16F, and 18F?
+
+|
+I'm selling a blue key for 200 gold!
+Deal?
+    @ Yes
+    @ No
+
+|
+A Cross in your possession can double
+your ATK when fighting with zombies
+and the Vampire. Especially, Vampire
+seems invincible without the Cross.
+It should be somewhere on the higher
+floors that...
+
+|
+I'll buy your keys for 100 gold each.
+Do you wanna sell them?
+    @ Yes
+    @ No
+
+|
+|
+I'm selling a set of 4 keys plus a
+blue key for 1000 gold! Deal?
+    @ Yes
+    @ No
+
+|
+The tower is 50 floors high, but in
+reality, you can only go up to 49F.
+
+|
+I'm selling 3 keys at a huge deal for
+200 gold! First come, first served!
+    @ Yes
+    @ No
+
+|
+Wherever there are gatemen, there's
+a gate. In turn, if there is a gate,
+there will always be enemies guarding
+the gate on the same floor. So, ... 
+
+|
+The price is 2000 gold, but it's for
+3 blue keys. Deal?
+    @ Yes
+    @ No
+
+|
+There is an item called "Lucky Gold"
+somewhere in this tower. With that
+in you possession, it can supposedly
+double your earnings from defeating
+enemies.
+
+|
+For 1000 gold, I can raise your HP by
+2000 pt.
+    @ Yes
+    @ No
+
+|
+The Sacred Shield seems to have the
+power to screen you from the magic
+attacks of wizards... However, it's
+said to be hidden on a phantom floor.
+
+|
+Yike! Thank you for helping me out.
+Please take this as a small token of
+my gratitude.
+       (Received 1000 gold!)
+
+|
+Would you like to buy a super rare
+item, Super Mattock, for 4000 gold?
+    @ Yes
+    @ No
+
+|
+If you plan on defeating the Dragon,
+you must have the Holy Sword, Holy
+Shield, and Dragon Slayer in hand;
+besides, you've also got to attain
+sufficiently high levels.
+
+|
+|
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+Which data do you wanna load?
+    Data 1
+    Data 2
+    Data 3
+    Data 4
+    Data 5
+    Data 6
+    Data 7
+    Data 8
+    DO NOT LOAD
+
+|
+Which data do you wanna save?
+    Data 1
+    Data 2
+    Data 3
+    Data 4
+    Data 5
+    Data 6
+    Data 7
+    Data 8
+    DO NOT SAVE
+
+|
+You can look up the enemies' HP, ATK, DEF,
+and expected damage to you on this floor.
+
+|
+Showing all the info learned so far:
+
+|
+|
+|
+|
+|
+|
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+I'll bestow this Orb of Hero on you.
+This will not only enable the save
+function, but also allow you to look
+up the monsters' abilities on your
+current floor and predict the battle
+damage. Please use it effectively.
+
+|
+In this tower, there are doors that
+can be opened by keys, but besides
+them, there are also "gates," which
+I assume won't open untill the mons-
+ters guarding them are defeated. 
+
+|
+If you make a purchase from a mer-
+chant, they may provide valuable in-
+formation afterwards.
+
+|
+In this block, there are two places
+where you can get a red key.
+
+|
+In this block, without raising your
+ATK several times at an altar, the
+monsters called "Rock" would be too
+formidable to defeat easily. So, be-
+ware of that.
+
+|
+Well, well. You've found me. As a
+reward, this "Elixir" is now yours.
+This potion can raise your HP accor-
+ding to your current ATK and DEF. So
+of course, the later you use it, the
+better the effect will be.
+
+|
+If you can make good use of the four
+hidden tunnels on this floor, you can
+go upstairs without the need to fight
+strong enemies.
+
+|
+In this block lives the Archsorcerer,
+the proprietor of the tower. Fighting
+him now is tantamount to suicide. The
+right solution is to go to the higher
+block now without confronting him.
+
+|
+The dual wielding swordsmen have an
+incredibly high ATK. By fighting them
+head on, you'll suffer from a great
+damage. You'd better not fight them
+till you can achieve a one turn kill.
+
+|
+Haste makes waste.
+
+|
+In order to obtain the items in the
+warehouse on this floor, a mattock
+is necessary.
+
+|
+At 3 o'clock, Warp Staff will appear.
+
+|
+At the stage of reaching this floor,
+if you have an HP of 1500, an ATK of
+80, a DEF of 98, as well as 5 keys
+and a blue key, then it can be viewed
+as an ideal status.
+
+|
+Oh! Thank you for helping me out. In
+return, I'll raise your ATK and DEF
+by 3%.
+     (ATK and DEF got raised!)
+
+|
+Magicians perform magic attacks when
+adjacent to you. Sorcerers perform an
+attack that halves your HP when you
+get flanked in between them. Beware
+of the latter case, as a higher HP of
+yours can lead to a larger damage.
+
+|
+44F of this tower is a phantom floor.
+It can't be reached by simply using
+stairs. Unless you warp the space, it
+is impossible to get there.
+
+|
+41F shows perfect bilateral symmetry.
+So, ...
+
+|
+It's said that the shape of 5 pips on
+a dice has the power to seal the evil
+magic. You'd better keep this in mind
+when fighting the boss of this block.
+
+|
+|
+|
+Haha, you've made it here. Incredible
+but in such a case, I'll fight you
+directly... However, I'd like to see
+how capable you are before that! Come
+out! My skeleton soldiers!
+
+|
+Hmm, impressive... But I won't let
+you go on anymore! Here, you'll meet
+your demise! Well, come on!!!
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Skeleton: Ugh... Can't believe that
+I'm beaten by you... However, the
+floors from now on will be filled
+with monsters and traps that are
+incomparably stronger than ever, so
+just face your doom with fear...
+
+|
+Yo! We meet again. You're amazing for
+defeating the boss of this block. It
+had troubled me that I couldn't go to
+higher floors. Oh right, I heard that
+there's a shield on 11F and a sword
+on 17F, but it's best if you go for
+the sword first. In doing so, you've
+got to dodge the enemies along the
+way. Anyways, see you later!
+
+|
+|
+|
+Welcome to "Tower of the Sorcerer."
+You are the 100th invader. Normally,
+I'd have my minions deal with you,
+but this time, I'll specially fight
+you myself. Curse your misfortune.
+
+|
+What!? Owwww!!?
+
+|
+...
+
+|
+...Hey...
+
+|
+...Hey! Wake up!
+
+|
+Are you OK? You were caught and put
+into this prison by the Sorcerers,
+and you've been unconscious till now.
+But you got lucky! I happened to
+finish making an escape tunnel just
+when you got here. Anyways, I'm about
+to escape right now. Come with me!
+
+|
+OK, I've got to leave now. By the
+way, it looks like your swords and
+shields were taken away, and it's
+unwise to wander around here unarmed.
+I remember there is a sword on 5F and
+a shield on 9F. You'd better consider
+getting them first of all. Well then,
+see you later!
+
+|
+|
+|
+|
+Yo! Are you OK? The Giant Octopus is
+blocking the road and has been trou-
+bling me. But finally, this tunnel's
+been completed. I think you'd better
+also avoid fighting the Octopus for
+now. Alright, see you then!
+
+|
+Ho, it's you - the braveman who beat
+the Skeleton and invaded my territo-
+ry... But don't be naive and equate
+me with the lowly Skeleton. I'll now
+show you my undead power. Come!
+
+|
+Ugh... I never thought that even I
+would lose... Seems that your power's
+the real deal... But power of this
+level will never be a match for that
+of the great Archsorcerer. So just
+revel in your momentary triumph...
+
+|
+Unused paragraph
+
+|
+Phew, the tunnel's finally done. Huh?
+It's you again. Good timing, isn't
+it? I've just made another tunnel,
+and feel free to use it as you like.
+
+|
+The captured princess and the last
+boss are both in this block. But it
+might be too early to plan for that.
+
+|
+Argh! The tunnel hasn't been comp-
+leted yet... If you had waited a bit,
+you wouldn't have got to use an item.
+The plan's got messed up... Ah no,
+never mind.
+
+|
+|
+|
+|
+You must be the braveman who beat the
+bosses of Blocks 1 and 2 and came to
+this point. But this is where it all
+ends! As the boss of this block, I'll
+chop off your head myself! Hands up!
+
+|
+Ugh... I'll let you go for now... But
+if you can make it to 40F, I'll fight
+you seriously then. Remember that and
+be prepared!
+
+|
+|
+|
+|
+You finally came. This time won't be
+like before! I'll repay you for that
+humiliation 10x over! Ghost Soldiers!
+
+|
+Humph, those are just small fry! Now
+charge, Soldiers!
+
+|
+We're not done yet! Swordsmen charge!
+
+|
+Heck! But how about this! Knights,
+charge!
+
+|
+Ugh...My minions... N-never will I
+spare you! This time, I won't show
+mercy on you! Prepare yourself!
+
+|
+Cough... That's enough for this time
+... Huff huff... I'll let it slide
+for now... But next time, I won't go
+easy on you and will fight you seri-
+ously! Be ready!
+
+|
+Yo! We meet again. Thanks for beating
+the gatemen here and saving me. I got
+caught again, and unfortunately, I
+was locked up in this back cell this
+time. Anyways, I've been digging a
+tunnel in front of the Dragon on 35F.
+I'll open it up very soon, so just
+go ahead first.
+
+|
+Just go ahead to 35F first, and I'll
+catch up.
+
+|
+Oh, you're here. Good timing - I've
+just opened up this tunnel, through
+which you can sneak behind the Dragon
+and up the stairs.
+
+|
+The boss of this block, Golden Knight
+is domineering despite being weak, so
+he seems to be disliked by Vice Gen-
+eral of the tower, Zeno the Sorcerer.
+
+|
+Unused paragraph
+
+|
+|
+|
+|
+|
+Golden Knight:
+Ah...! Lord Zeno... I almost captured
+the braveman, but he escaped. Please,
+forgive me...
+
+|
+Zeno the Sorcerer:
+He escaped...? Wasn't it you who es-
+caped! You shameless maggot! Cowards
+like you have no place in this tower!
+Here you die!
+
+|
+Golden Knight:
+Eek! No, please forgive...Gulp! Owww!
+
+|
+Zeno the Sorcerer:
+Sorry for the unsavory sight. How-
+ever, rest assured that I'm not like
+this scumbag. If you manage to come
+to me alive, I'll personally fight
+you myself. I'm looking forward...
+
+|
+Unused paragraph
+
+|
+Well done, you're here at last. Let
+me praise you for that. Now as I
+promised, I'll be personally facing
+you myself. Alright, come at me.
+
+|
+Alas... This formation... Oh no!
+
+|
+|
+|
+BEEP... K-I-L-L...T-H-E...B-R-A-V-E-
+M-A-N...
+
+|
+BEEP... THE-TIME... HAS-COME... THE-
+CHOSEN ONE...IF YOU-ARE-NOT-AFRAID OF
+DEATH... GO-THROUGH-THE-GATE OF-SPACE
+AND-TIME... AND...COME...TO...ME...
+
+Braveman: This... It's just a doll!
+
+|
+You are...! How can you be in such a
+place!
+
+|
+Well, la di da. There's only one way
+to explain why I'm here. That expla-
+nation is...!
+
+|
+Ah...! You are Zeno! How come you're
+still alive!?
+
+|
+Zeno:
+You really think that I would ever
+get defeated in such a way? It was
+simply a test of your abilities as
+a warrior.
+
+|
+What!?... What do you mean! Why did
+you do such things to me!?
+
+|
+Zeno:
+You possess the Sacred Sword, "Weap-
+ner," whereas I have the Omniscient
+Staff, "Intellion." It's said that
+whoever unites these two powers can
+gain great wisdom... The great cause,
+however, requires a warrior who can
+fully wield the power of that sword.
+
+|
+Are you saying that I'm the one...
+The "warrior"!?
+
+|
+Zeno: Indeed... However, your skills
+were inadequate to master that Sacred
+Sword "Weaponer." That's why I spread
+false information, set various traps
+in this tower, and waited for you to
+come. And now, just as I had planned,
+you've come this far with sufficient
+power to handle the Sacred Sword.
+
+|
+So you're saying that even the rumor
+of the princess being kidnapped was
+just a trap to lure me here!?
+
+|
+Zeno: Exactly. That said, once I take
+away your power, this farce will come
+to an end...
+        The time has come...
+      With my omniscient power,
+  I shall shatter the Sacred Sword
+      and gain great wisdom...
+Come! Warrior of the Sacred Sword!
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+Unused paragraph
+
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
+|
