@@ -3,7 +3,7 @@
 
 require './readFDI'
 f = __FILE__
-f = ExerbExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
+f = ExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
 def _exit
   print('Press <Enter> to exit.'); STDIN.gets; exit
 end
