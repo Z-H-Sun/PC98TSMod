@@ -1,15 +1,15 @@
-# patchTS / 魔塔主程序补丁
+# TowerOfTheSocerer Patch / 魔塔主程序补丁
 
 ## Synopsis / 概要
 
 ## Usage / 用法
 
 ## Components / 组件
-### patchTS (main)
+### [patchTS](/patch/patchTS.rb) (main)
 This is the main program. It will patch the executable of the TowerOfTheSocerer game. The places to patch are specified in [`patchTS.txt`](/patch/patchTS.txt). / 
 这个是主程序，用于给魔塔游戏的可执行文件打补丁。要打哪些补丁由[`patchTS.txt`](/patch/patchTS.txt)指定。
 
-### patchTS.txt
+### [patchTS.txt](/patch/patchTS.txt)
 Specifies what to patch. It stores a 2D array, where each element is a 1D variable-length array and specifies one place to patch. These 1D arrays must have at least 7 elements each: / 
 指定要打哪些补丁。该文件里有一个二维数组，其中每个元素都是一个不定长的一维数组且各自指定一处要打的补丁。这些一维数组中都必须至少有7个元素
 * First: Boolean; whether this patch is recommended (i.e., will be performed by default). / 第一个: 布尔值类型，是否为推荐（即默认选中）的补丁。
@@ -20,7 +20,7 @@ Specifies what to patch. It stores a 2D array, where each element is a 1D variab
 * Sixth & Seventh: String; the original bytes & the bytes after patch. / 第六、七个：字符串类型，原先的和打完补丁后的字节码。
 * Optional: (3*n*+8)-th, (3*n*+9)-th, & (3*n*+10)-th (*n*=1,2,3,...): If multiple places needs patching, specify here the relative offset (with respect to the end of the previous bytes) and original/patched bytes. / 第(3*n*+8)、(3*n*+9)、(3*n*+10)个 (*n*=1,2,3,...)：如果有多处需要更改，在此处指定相对（于上一组字节码末尾而言的）偏移量以及原先的/打完补丁后的字节码。
 
-### readFDI
+### [readFDI](/patch/readFDI.rb)
 Read and write virtual files within an FDI image as if they were on a physical drive. / 给FDI镜像中的虚拟文件提供读写接口。
 * This is an experimental function, so it only supports a limited selection of image formats, and I can't guarantee it works perfectly well. So be careful and backup your file. / 这个功能尚处实验阶段，因此只支持部分镜像格式，且并不保证会毫无差错。所以请务必做好备份。
 * FDI is a format developed by ANEX86. The first 4096 bytes are headers that specify the properties of the image, followed by the raw floppy disk IMG data, which can be directly loaded by disk image tools like `dd`. / FDI是由ANEX86开发的格式，其中前4096字节为文件头，指定了该映像的一些属性，紧随其后存储的是软盘的原始数据，如果将此数据另存为IMG格式可直接由诸如`dd`等的磁盘映像工具装载。
@@ -69,8 +69,8 @@ nop
 
 So now, as long as you pass an argument that is not one among `EP286`, `FMINT0`, `FMCUT`, `FORTEST`, `=NAO/WATANABE=`, and `MTREG`, the speed mode will be the high speed mode at the beginning of the game. For example, if you specify `FORTEST`, it will set `byte_222af` zero and thus normal speed mode as default just like in `sub_16536`; but then, you can add another argument afterwards, say, `MTE [...] FORTEST foo` to re-set the high speed mode as default.
 
-### Fix the Warp Staff (Warp Wing) bug
-* When you use the Warp Staff (Warp Wing) at an HP < 800, the HP will become a negative number, which should have caused "game over." However, the TowerOfTheSorcerer game improperly treats this negative number as an unsigned integer, which leads to an underflow and thus HP becoming the upper limit (9990 or 32767 depending on whether you have patched the HP upper limit). In addition, if you use the item at an HP of exactly 800, your HP will become zero, which should also have caused game over. But in the original TowerOfTheSorcerer game, this does not happen either.
+### Fix the Warp Wing (Warp Staff) bug
+* When you use the Warp Wing (Warp Staff) at an HP < 800, the HP will become a negative number, which should have caused "game over." However, the TowerOfTheSorcerer game improperly treats this negative number as an unsigned integer, which leads to an underflow and thus HP becoming the upper limit (9990 or 32767 depending on whether you have patched the HP upper limit). In addition, if you use the item at an HP of exactly 800, your HP will become zero, which should also have caused game over. But in the original TowerOfTheSorcerer game, this does not happen either.
 * Long story short, we need to add a judgement on HP (`word_22328`; offset `seg008:0098`) right after using the item (`loc_186b6`; offset `seg001:1e06`): If the HP is less than or equal to 0 after the 800 HP deduction, then trigger "game over."
 * This judgement and other involved processes, shown below, requires 21 additional bytes, which is quite challenging because we have to save these 21 bytes from other neighboring places without affecting the normal function of the game.
   ```asm
@@ -123,7 +123,7 @@ else: # obstacles
 sub_12f8c()
 return
 ```
-It is worth noting that the map info is stored in the WORD array at offset `dseg:1ae8` (i.e., each element is a 2-byte long integer). Each floor has 124 elements, and the first three are: floor number (0 to 51), the position after climbing up the stair, and the position after walking down the stair. The position (0 to 120) is defined as $11 Y\_POS + X\_POS$, where the `Y_POS` and `X_POS` range from 0 to 10 and are numbered from the upper left corner to the bottom right corner. The following 121 elements are the IDs of the tile at the given position. The definition of tile IDs is shown below (click the triangle icon to expand); e.g., 6 = normal floor.
+It is worth noting that the map info is stored in the WORD array at offset `dseg:1ae8` (i.e., each element is a 2-byte long integer). Each floor has 124 elements, and the first three are: floor number (0 to 51), the position after climbing up the stair, and the position after walking down the stair. The position (0 to 120) is defined as 11\*`Y_POS`+`X_POS`, where the `Y_POS` and `X_POS` range from 0 to 10 and are numbered from the upper left corner to the bottom right corner. The following 121 elements are the IDs of the tile at the given position. The definition of tile IDs is shown below (click the triangle icon to expand); e.g., 6 = normal floor.
 <details><summary>Tile IDs</summary>
 <p align="center"><img src="https://i0.hdslb.com/bfs/article/watermark/2563e02bb0af70455ea16ef152c256bea61b5207.png"></p>
 </details>
@@ -148,11 +148,11 @@ And our patch simply replaces 990s and 9990s with 32767.
 * Although we relieved the upper limits in the last section, a new problem arises. If the value is between 10000 and 32767, there is an additional digit—and this fifth digit will not display correctly.
   * First off, it exceeds the left bound of the frame, so we need to adjust its display position.
   * Secondly, the left-most digit never gets refreshed. For example, if your HP goes from 19900 to 20000, there will be a "2" superimposed on top of "1" on the far left; what's worse, if your HP decreases from 10000 to 9800, the leftmost "1" never gets erased, so it now reads "19800," which can be very misleading.
-* The relevent function to patch is still `sub_1b96c`. Just below the overflow checks in the previous section, two functions are called for each property to be refreshed:
+* The relevant function to patch is still `sub_1b96c`. Just below the overflow checks in the previous section, two functions are called for each property to be refreshed:
   * `sub_1fcd9(int pos, int length, int height, byte color)`
   * `sub_1b8d6(int left, int top, int value, int length, byte color)`
 * To take HP as an example, the peudocode for the original instructions is: `sub_1fcd9(6406, 4, 16, 0xdd); sub_1b8d6(6, 80, HP, 4, 0xff)`
-* The first function fills the rect (*l*=48, *t*=80, *w*=64, *h*=16) with color `0xD`, and the second function draws the HP value in the same rect, right aligned, with color `0xF`. Colors `0xD` and `0xF` are deep gray and white, respectively, according to the default palette of the game (click the triangle icon to show the colormap).
+* The first function fills the rect (*l*=48, *t*=80, *w*=64, *h*=16) with color `0xD`, and the second function draws the HP value in the same rect, right aligned, with color `0xF`. Colors `0xD` and `0xF` are deep gray and white, respectively, according to the default palette of the game (click the triangle icon below to show the colormap).
   <details><summary>Palette</summary>
   <img src="/p58/colormap.png">
   </details>
@@ -160,3 +160,53 @@ And our patch simply replaces 990s and 9990s with 32767.
 * The argument `pos` defines the upper left corner of the rect, and `pos`=(`left`+640`top`)/8. Recall that the PC98 graphics hardware system groups every 8 pixels in a row, which explains why `pos` is divided by 8 in the end. For the same reason, the argument `left` in the second function is also 1/8 of the actual *left* coordinate. The argument `length` in both functions is the number of digits and defines the width of the rect, which is equal to 16*`length`, because each full-width character is 16-pixel wide (and also 16-pixel high, which is why `height`=16).
 * With the knowledge of how these functions work, our patch is simple: Move the rect to the left and make it wider. Again taking HP as an example, we now write: `sub_1fcd9(6405, 5, 16, 0xdd); sub_1b8d6(5, 80, HP, 5, 0xff)` instead; likewise for other properties.
 * There is one little optimization, though, so that we can make less patches. The real `left` position of the right-aligned text is calculated by `left + 2*(length - len(str(value)))` (the coefficent 2 here is because 16=8\*2), so obviously, the effect of `left=5; length=5` is the same as setting `left=7; length=4`. Though less straightforward, the latter assignment reduces one place to change for each property.
+
+### Set font style
+* The game program, by default, draws all text in bold. This effect is actually achived by stroke, i.e., simply drawing the same text again but offset by 1 pixel to the right.
+* The text drawing function is `sub_20a12` (or `sub_20aba` if you are in the EPSON286 character-display mode by specifying the argument `EP286` in the command line). The relevant instructions are shown below (using pseudocode):
+
+```python
+planes = [0xa800, 0xb000, 0xb800, 0xe000] # B G R E color planes
+for i in planes:
+  sub_20a5a(i) # or sub_20b03(i)
+# <--
+for i in planes:
+  sub_20a7c(i) # or sub_20b31(i)
+```
+
+The second calls implement the "stroke" effect. If we do not want to have this effect, i.e. to draw the texts in a regular font weight, we can insert a `return` opcode (`C3`) in the line marked by an arrow to skip the instructions afterwards.
+
+### Set HP/ATK/DEF=8000/5000/1000 after the prologue
+* Normally, after the prologue (meeting Zeno on 3F), your HP/ATK/DEF will be set to be 400/10/10. The relevant instructions are in `loc_16ebd` and shown below:
+  ```asm
+  seg001:0677      mov  es, seg_278BA   ; seg008
+  seg001:067B      mov  es:[0x98], 1000 ; HP
+  seg001:0682      mov  ax, 10
+  seg001:0685      mov  es, seg_278BC   ; seg008
+  seg001:0689      mov  es:[0x9c], ax   ; ATK
+  seg001:068D      mov  es, seg_278BE   ; seg008
+  seg001:0691      mov  es:[0x16], ax   ; DEF
+  ```
+* We can cheat here (cheating is not good, though!) and change these properties to be the same as Zeno (8000/5000/1000). As mentioned above, the instruction `mov es, [seg_008]` is redundant except its first occurrence. So we can simply write instead:
+  ```asm
+  mov es, seg_278BA
+  mov es:[0x98], 8000
+  mov es:[0x9c], 5000
+  mov es:[0x16], 1000
+  nop
+  ...
+  ```
+
+### Show menu right before the epilogue
+* Once you enter the Gate of the Space and Time, you will directly go to 50F and immediately trigger the epilogue. Therefore, it is impossible to do anything here, such as to view the properties of Zeno or save data or use an item. This patch, however, can show the menu right after you are done talking with Zeno and before the epilogue is triggered, thus making the aforementioned operations possible.
+* The relevant function is `sub_1c4d8`, and the epilogue is triggered at offset `1CC72` (`seg001:63c2`), right before which is likely a sleep function, `sub_1f9e2(duration=50)`. This sleep function does not matter much, so we can replace it with calling instead `sub_10a5a()`, i.e. the function to show the menu. The corresponding assembly codes before and after patching are:
+
+```asm
+seg001:63B6      mov   ax, 50     ->  nop
+seg001:63B9      push  ax         ->  nop
+seg001:63BA      call  sub_1F9E2  ->  call  sub_10a5a
+```
+
+### Extend display range of supported Kanji (Han) chars
+* Do not use this patch. For the Chinese translated version, this place has already been patched. For the Japanese version, patching this place will cause mojibake (文字化け; 乱码).
+* More details are discussed [here](/gtx/README.md#Support-for-more-kanji-chars).
