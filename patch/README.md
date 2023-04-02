@@ -144,6 +144,8 @@ if GOLD> 9990: GOLD= 9990
 
 And our patch simply replaces 990s and 9990s with 32767.
 
+Additional note: There are other places where similar "9990-tests" are done. For example, the expected damage shown in OrbOfHero (勇者のオーブ; 勇者灵球) and the amount of gold asked for by an altar (祭壇) are also always ≤ 9990. The corresponding addresses of the tests are `seg001:26b0` in `sub_18c2a` and `seg000:42e6` in `sub_142aa`, respectively. The former is patched here, but the latter is not, because the amount of gold asked for by an altar follows: $G=10t^2-10t+20$, where *t* is the number of visits to the altar, so not until the 33rd visit will *G* exceed 9990, while it is highly unlikely that one can collect enough gold to visit the altar for more than 21 times in this game.
+
 ### Increase HP/ATK/DEF/GOLD display digits
 * Although we relieved the upper limits in the last section, a new problem arises. If the value is between 10000 and 32767, there is an additional digit—and this fifth digit will not display correctly.
   * First off, it exceeds the left bound of the frame, so we need to adjust its display position.
