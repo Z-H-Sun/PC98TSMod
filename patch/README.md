@@ -211,4 +211,4 @@ seg001:63BA      call  sub_1F9E2  ->  call  sub_10a5a
 
 ### Extend display range of supported Kanji (Han) chars
 * Do not use this patch. For the Chinese translated version, this place has already been patched. For the Japanese version, patching this place will cause mojibake (文字化け; 乱码).
-* More details are discussed [here](/gtx/README.md#Support-for-more-kanji-chars).
+* More details are discussed [here](/gtx#support-for-more-kanji-chars).
