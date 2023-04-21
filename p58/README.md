@@ -22,11 +22,11 @@ The decoding rule of this home-made compression algorithm can be found in `sub_1
 
 If the current byte is not `\x58` ("X"), write the byte as is; if a `\x58` is met, check if the following byte $i$ is
 * `\x63`, then write `\x58`, i.e., `\x58\x63` is an escape sequence of `\x58` itself.
-* `\x40` to `\x62`, then write this byte `\x[i]`, i.e., `\x58\x[i]` is an escape sequence of `\x[i]`, where 0x40≤$i$≤0x62.
+* `\x40` to `\x62`, then write this byte `\x[i]`, i.e., `\x58\x[i]` is an escape sequence of `\x[i]`, where 0x40≤ $i$ ≤0x62.
 * `\x00` or `\x01`, then read the next 1 or 2 bytes, respectively, as an unsigned integer $j$, and write `\x00` for $j$ times.
 * `\x02` or `\x03`, then read the next 1 or 2 bytes, respectively, as an unsigned integer $j$, and write `\xff` for $j$ times.
 * `\x04` to `\x27`, then read the next 1 or 2 bytes if $i$ is even or odd, respectively, as an unsigned integer $j$, then read the following $\lfloor i/2 \rfloor$ bytes, and then write these $\lfloor i/2 \rfloor$ bytes for $j$ times on a rotational basis.
-  * For example, `\x58\x06\x07\x01\x02\x03` means to write the 6//2=3 bytes `\x01\x02\x03` for 5 times, i.e., `\x01\x02\x03\x01\x02\x03\x01`.
+  * For example, `\x58\x06\x07\x01\x02\x03` means to write the 6//2=3 bytes `\x01\x02\x03` for 7 times, i.e., `\x01\x02\x03\x01\x02\x03\x01`.
 * `\x32` or `\x33`, then read the next 1 or 2 bytes, respectively, as an unsigned integer $j$, and copy the $j$ bytes from the `B` color plane (at the same location; same below).
 * `\x34` or `\x35`, then read the next 1 or 2 bytes, respectively, as an unsigned integer $j$, and copy the invert of the $j$ bytes from the `B` color plane (i.e., perform the `NOT` bitwise operation).
 * `\x36` to `\x39`, similar to `\x32` to `\x35` but copy from the `R` instead of `B` color plane.
