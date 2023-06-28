@@ -101,7 +101,7 @@ The price is 2000 gold, but it's for
 |
 There is an item called "Lucky Gold"
 somewhere in this tower. With that
-in you possession, it can supposedly
+in your possession, it can supposedly
 double your earnings from defeating
 enemies.
 
@@ -114,8 +114,8 @@ For 1000 gold, I can raise your HP by
 |
 The Sacred Shield seems to have the
 power to screen you from the magic
-attacks of wizards... However, it's
-said to be hidden on a phantom floor.
+attacks of wizards... However, it was
+allegedly hidden on a phantom floor.
 
 |
 Yike! Thank you for helping me out.
@@ -225,9 +225,9 @@ Unused paragraph
 |
 |
 I'll bestow this Orb of Hero on you.
-This will not only enable the save
+This will not only enable the "save"
 function, but also allow you to look
-up the monsters' abilities on your
+up the monsters' properties on your
 current floor and predict the battle
 damage. Please use it effectively.
 
@@ -278,7 +278,7 @@ block now without confronting him.
 |
 The dual wielding swordsmen have an
 incredibly high ATK. By fighting them
-head on, you'll suffer from a great
+head to head, you'll suffer a great
 damage. You'd better not fight them
 till you can achieve a one turn kill.
 
@@ -291,7 +291,7 @@ warehouse on this floor, a mattock
 is necessary.
 
 |
-At 3 o'clock, Warp Staff will appear.
+At 3 o'clock, Warp Wing will appear.
 
 |
 At the stage of reaching this floor,
@@ -325,9 +325,9 @@ is impossible to get there.
 So, ...
 
 |
-It's said that the shape of 5 pips on
-a dice has the power to seal the evil
-magic. You'd better keep this in mind
+The shape of 5 pips on a dice has the
+alleged power to seal the evil magic.
+You'd better keep this firmly in mind
 when fighting the boss of this block.
 
 |
@@ -335,9 +335,9 @@ when fighting the boss of this block.
 |
 Haha, you've made it here. Incredible
 but in such a case, I'll fight you
-directly... However, I'd like to see
-how capable you are before that! Come
-out! My skeleton soldiers!
+directly... That being said, I'd like
+to see how capable you are prior to
+that! Come out! My skeleton soldiers!
 
 |
 Hmm, impressive... But I won't let
@@ -438,8 +438,8 @@ Ugh... I never thought that even I
 would lose... Seems that your power's
 the real deal... But power of this
 level will never be a match for that
-of the great Archsorcerer. So just
-revel in your momentary triumph...
+of Lord Archsorcerer. At best you're
+reveling in your momentary triumph...
 
 |
 Unused paragraph
