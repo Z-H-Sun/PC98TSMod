@@ -118,7 +118,7 @@ attacks of wizards... However, it was
 allegedly hidden on a phantom floor.
 
 |
-Yike! Thank you for helping me out.
+Yikes! Thank you for helping me out.
 Please take this as a small token of
 my gratitude.
        (Received 1000 gold!)
@@ -647,7 +647,7 @@ of the princess being kidnapped was
 just a trap to lure me here!?
 
 |
-Zeno: Exactly. That said, once I take
+Zeno: Exactly. Alright, once I take
 away your power, this farce will come
 to an end...
         The time has come...
@@ -695,118 +695,208 @@ Unused paragraph
 |
 |
 |
-Unused paragraph
+ Hey! You haven't sent the payment yet,
+ have you? This is outrageous!
 
 |
-Unused paragraph
+Oh! You sent the payment properly! Well
+done! The key point to conquering all 50
+floors is to save keys for later use.
+Especially from 1F to 20F, you'd better
+avoid opening unnecessary doors.
 
 |
-Unused paragraph
+ For those who haven't sent the payment
+ yet, I'll punish them on behalf of the
+ author! Whack! Bash!
 
 |
-Unused paragraph
+ For those who haven't sent the payment
+ yet, I'll punish them on behalf of the
+ author! Whack! Bash! ...Wait. Ah? You
+ already sent it? Oopsie, sorry~
 
 |
-Unused paragraph
+ For a payment of 1200 gold, I'll give
+ you some good advice.
 
 |
-Unused paragraph
+ It will make your later journey much
+ easier if you could level up at altars
+ on a higher floor whenever possible.
+ Especially from 1F-10F, it's possible
+ to clear the block without leveling up
+ at all, so give it a try!
 
 |
-Unused paragraph
+ If you send the payment, I'll tell you
+ where I am!
 
 |
-Unused paragraph
+    I'm somewhere further below 1F!
+    Did you notice?
 
 |
-Unused paragraph
+ For those who sent the payement, I'll
+ let them know where my least favorite
+ Cross is located.
 
 |
-Unused paragraph
+ The cross is on 19F, but I don't want
+ it to be too noticeable. By the way,
+ if you have the Cross, there will be a
+ discrepancy between predicted damage
+ and actual damage, so be aware of that.
 
 |
-Unused paragraph
+You wretch! You haven't sent any payment
+yet! Outrageous! Get ready for my Energy
+Drain attack! Wham!!!
 
 |
-Unused paragraph
+ Although you're an enemy, I must admit
+ that it's admirable of you to send the
+ payment. As a reward, let me tell you
+ something good. To seal my magic power,
+ you need to make the eight Sorcerers
+ surrounding me form a specific shape.
+ Do you get it?
 
 |
-Unused paragraph
+  For those who sent the payment, it's
+  an order from above that we must in-
+  form them of our whereabouts.
 
 |
-Unused paragraph
+ To reach 44F where we dwell, one must
+ use either of two special items, both
+ of which, however, are challenging to
+ obtain.
 
 |
-Unused paragraph
+  The whereabouts of "Ascent Wing*" is
+  something I know... but I won't tell
+  you unless you send the payment.
+
+ ( *Transl Note: This might be a typo. )
+   ( Should have been "Descent Wing" )
 
 |
-Unused paragraph
+ I'm hiding in the top right corner of
+ 41F, but first of all, you must defeat
+ the one on the top left. If you defeat
+ me, there will be a special item...
 
 |
-Unused paragraph
+BEEP...BEEP......SEND...THE...PAYMENT...
 
 |
-Unused paragraph
+ ...25F...FAKE......BEEP BEEP...BEEP...
 
 |
-Unused paragraph
+ Well~ I really want to share much too
+ much information, but there's an order
+ from above that I can only talk with
+ those who sent the payment...
 
 |
-Unused paragraph
+Well, Thank you for sending the payment.
+The author is also overjoyed! Once you
+reach 35F and encounter the Dragon, come
+back to 2F. I'll make a path for you.
 
 |
-Unused paragraph
+ For the fools who haven't yet sent the
+ payment, we shall thoroughly show them
+ our horror on 41F.
 
 |
-Unused paragraph
+When flanked in between us, your HP will
+be halved. So when you pass through us,
+it's best to keep a low HP if possible.
+Especially, for potions on 31-40F, you'd
+better not to take them all, but rather
+leave some of them behind.
 
 |
-Unused paragraph
+To those who haven't sent any payment, I
+shall greet them with a taste of my dual
+wielding godslayer sword! Shoom shoom!!!
 
 |
-Unused paragraph
+There are eight monsters on 34F guarding
+a red key.
 
 |
-Unused paragraph
+ La la la~  Payment~ That's the hope of
+ the author~ La la la~
 
 |
-Unused paragraph
+ La la la~ Thanks~ You are a nice guy~
 
 |
-Unused paragraph
+Hmm!! You wretch! I, Lord Golden Knight,
+have taken all the trouble to show up
+specially, but yet you haven't sent the
+payment! Foolish creature! Get prepared
+to be punished!
 
 |
-Unused paragraph
+ Hmm!! You indeed did send the payment!
+ Admirable wretch! On 39F, you can get a
+ special item by opening two doors. Just 
+ treat the nine doors as if they were a
+ clock.
 
 |
-Unused paragraph
+ Skel~e, kele kele, skeleto~ on, skel~
+ skelet~ on, ske ske, kele kele, skel~
+ eton... If you don't send the payment,
+ you'll be hearing this song forever.
 
 |
-Unused paragraph
+ Using the hidden tunnel on 9F will make
+ it a bit easier to obtain the shield.
 
 |
-Unused paragraph
+ I'm just a nobody. That's why I don't
+ know much info. But if you don't place 
+ an order, everyone will bully me. Sob
+ sob...
 
 |
-Unused paragraph
+Thank you for placing an order! Now I
+won't be bullied by everyone! Good luck
+on your journey to conquering 50 floors!
 
 |
-Unused paragraph
+If you don't send the payment, I'll turn
+you into a zombie too!
 
 |
-Unused paragraph
+The three of us in the upper left corner
+of 14F have the mission of guarding a
+red key.
 
 |
-Unused paragraph
+ Black Knight Att~ack!! How about that!
+ You should now feel like sending the
+ payment, right?
 
 |
-Unused paragraph
+ In order to open the gate on 48F, you
+ must defeat the enemy guarding it, who
+ is hiding itself in a certain place.
+ If you can find it, you should be able
+ to open the gate.
 
 |
-Unused paragraph
+  I am Slime King. Huh!? Asking for a
+  payment? What's that?
 
 |
-Unused paragraph
+To obtain the shield on 43F, you'll need
+to take a detour.
 
 |
 |

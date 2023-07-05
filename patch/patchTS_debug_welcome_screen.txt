@@ -1,0 +1,10 @@
+puts 'WARNING: DEBUG ONLY!'
+puts 'WARNING: This tool only works when the main program task #7 (Show welcome screen) has been performed; otherwise, inproper use of this tool might lead to unexpected outcomes!'
+puts 'Press ENTER to confirm the info above.'
+STDIN.gets
+
+[
+[true, 'UNPAID (Show the unpaid version of the welcome screen)', nil, nil, 0x798a, "\1", "\0"],
+[true, 'LOOP (Show all welcome screens instead of only one of them)', 'The loop will never break, and the game will not start. ', nil, 0x799c, "\xCB\0", "\xEB\xFF"],
+[true, 'SEQUENTIAL (Show the welcome screens sequentially rather than at random)', 'It is best to be used in combination with task #2 (LOOP); otherwise, only the first screen will be shown. ', nil, 0x11de0, "\x2E\xFF\x06\x24\x04\x2E\xA1\x24\x04\x2E\x8B\x1E\x26\x04\x03\xC3\x2E\x89\x1E\x24\x04\x2E\xA3\x26\x04\x25\xFF\x0F", "\x8E\x06\x78\x55\x26\x8A\x06\x01\x00\x30\xE4\x26\xFE\x06\x01\x00\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90"],
+]

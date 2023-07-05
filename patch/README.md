@@ -45,7 +45,7 @@ You can use IDA to statically disassemble `MTE.EXE` or use (a DEBUG-oriented for
   rep stosb ; set es:[di]=al; di+=1; loop for cx times
   ```
   The code above will reset `seg008:001e` to `seg008:0082` (offset `222ae` to `22312`) zeros.
-* Therefore, we will instead target the `_main` (offset `16692`) function. This function will check if the argv passed to the program contains any of the following: *EP286* (`dseg:10bf`), *FMINT0* (`dseg:10f8`), *FMCUT* (`dseg:10ff`), *FORTEST* (`dseg:1105`), *=NAO/WATANABE=* (`dseg:110d`), *MTREG* (`dseg:111c`), and *REGCUT* (`dseg:1122`). The last two were unused for some unknown reason; as a result, we can add the instructions here in replacement to set the byte `seg008:001f` to be 1.
+* Therefore, we will instead target the `_main` (offset `16692`) function. This function will check if the argv passed to the program contains any of the following: *EP286* (`dseg:10bf`), *FMINT0* (`dseg:10f8`), *FMCUT* (`dseg:10ff`), *FORTEST* (`dseg:1105`), *=NAO/WATANABE=* (`dseg:110d`), *MTREG* (`dseg:111c`), and *REGCUT* (`dseg:1122`). The last two were unused in this version (see [this section](#show-welcome-screen-before-the-game-starts) for detailed discussions); as a result, we can add the instructions here in replacement to set the byte `seg008:001f` to be 1.
 
 ```asm
 seg000:679F      mov     ax, 1122h
@@ -67,7 +67,22 @@ nop
 ...
 ```
 
-So now, as long as you pass an argument that is not one among `EP286`, `FMINT0`, `FMCUT`, `FORTEST`, `=NAO/WATANABE=`, and `MTREG`, the speed mode will be the high speed mode at the beginning of the game. For example, if you specify `FORTEST`, it will set `byte_222af` zero and thus normal speed mode as default just like in `sub_16536`; but then, you can add another argument afterwards, say, `MTE [...] FORTEST foo` to re-set the high speed mode as default. In addition, note that the program name is also part of the arguments, i.e., `argv[0]`, so if no argument is set, the high speed mode will also be set (as `MTE` is not among the aforementioned 6 arguments).
+However, this code is in the `if...else if...else` statement and thus will not be executed when any of the previous statement is true (i.e., the argument is equal to `EP286`, `FMINT0`, etc.). Ideally, this code should be moved out of the `if...else if...else` statement, but then we will run out of space. The workaround is to add a few more `jmp` operations at the beginning and at the end:
+
+```asm
+seg000:679F    jmp A ; first, jump over the whole new block
+B              mov es, seg_008
+               mov byte ptr es:[0x1f], 1
+               jmp C ; completed; continue the rest operations
+A              ...
+               ; other operations in the loop
+               ; judge whether to break the loop (0=break)
+               jz B          ; was jz C (jump out of the loop)
+                             ; now instead, the new block will be executed
+               jmp loc_166B8 ; start of the loop
+C              ...
+               ; other operations outside the loop 
+```
 
 ### Fix the Warp Wing (Warp Staff) bug
 * When you use the Warp Wing (Warp Staff) at an HP < 800, the HP will become a negative number, which should have caused "game over." However, the TowerOfTheSorcerer game improperly treats this negative number as an unsigned integer, which leads to an underflow and thus HP becoming the upper limit (9990 or 32767 depending on whether you have patched the HP upper limit). In addition, if you use the item at an HP of exactly 800, your HP will become zero, which should also have caused game over. But in the original TowerOfTheSorcerer game, this does not happen either.
@@ -198,6 +213,20 @@ The second calls implement the "stroke" effect. If we do not want to have this e
   nop
   ...
   ```
+
+### Show welcome screen before the game starts
+In a previous version, a welcome screen will be shown before the game starts. If you do not send ￥1200 (1200 Yen) to the author, N.W., the welcome screen will be some sentences that encourage you to do so. If you send the payment, the welcome screen will become some useful tips to clear the game. Click the triangle icon below to see an example.
+
+<details><summary>A sample welcome screen</summary>
+<p align="center"><img src="https://github.com/Z-H-Sun/PC98TSKai/assets/48094808/724f6477-d28d-4fbf-9c8d-b9ee00fa7241"></p>
+</details>
+
+In fact, if you pass an argument `MTREG` to the executable `MTE.exe`, then the paid version of the welcome screen will be shown instead of the unpaid version. If you pass `REGCUT` instead, then the welcome screen will not be shown.
+
+In this version, however, the welcome screen was removed, and the two arguments `MTREG` and `REGCUT` are also not used.
+
+TODO: Add more info.
+When there is a far-`call` (by absolute address), it seems that the oprands (and by extention, the bytes in the executable) will be modified when loading into the memory of the emulator.
 
 ### Show menu right before the epilogue
 * Once you enter the Gate of the Space and Time, you will directly go to 50F and immediately trigger the epilogue. Therefore, it is impossible to do anything here, such as to view the properties of Zeno or save data or use an item. This patch, however, can show the menu right after you are done talking with Zeno and before the epilogue is triggered, thus making the aforementioned operations possible.
