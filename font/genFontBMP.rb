@@ -16,7 +16,7 @@ FONTSIZE = $*[1].to_i
 FONTOFFSETX = $*[2].to_i
 FONTOFFSETY = $*[3].to_i
 
-if FONTNAME.nil? then puts "Usage: genFontBMP <font_name> [font_size] [font_offset_x] [font_offset_y]\nfont_size\tshould be adjusted to make sure each character fills but is still within a 16*16 cell.\nfont_offset\tshould be adjusted in the x and y directions to center the characters in the aforementioned cells.\n\nExample: genFontBMP YaHei-MONO 21 0 3"; exit end
+if FONTNAME.nil? then puts "Usage: genFontBMP <font_name> [font_size] [font_offset_x] [font_offset_y]\nfont_size\tshould be adjusted to make sure each character fills but is still within a 16*16 cell.\nfont_offset\tshould be adjusted in the x and y directions to center the characters in the aforementioned cells.\n\nExample: genFontBMP YaHei-MONO 19 0 1"; exit end
 
 require 'Win32API'
 SelectObj = Win32API.new('gdi32', 'SelectObject', 'll', 'l')
@@ -59,7 +59,7 @@ puts "The sample BMP file is saved to `#{fName}`."
 print 'An image viewer window will show to display this BMP. Please make sure that the character is centered and within the central 16*16 black frame. '
 system('pause')
 system "rundll32 shimgvw.dll, ImageView_Fullscreen #{fName}"
-print 'If you are satisfied, press `Enter` to confirm. Otherwise, type anything and hit return to exit, and you will need to adjust `FONTSIZE`, `FONTOFFSETX`, and `FONTOFFSETY` parameters in such a case. '
+print 'If you are satisfied, press `Enter` to confirm. Otherwise, type anything and then press `Enter` to exit, and you will need to adjust `FONTSIZE`, `FONTOFFSETX`, and `FONTOFFSETY` parameters in such a case. '
 exit unless STDIN.gets.strip.empty?
 
 hBitmap2 = CrBMP.call(hMemDC, pWidth, pHeight)
@@ -91,4 +91,3 @@ system "rundll32 shimgvw.dll, ImageView_Fullscreen #{fName}"
 Win32API.new('gdi32', 'DeleteDC', 'l', 'l').call(hMemDC)
 DeleteObj.call(hBitmap2)
 DeleteObj.call(hFont)
-

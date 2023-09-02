@@ -4,6 +4,9 @@
 # If you want to redirect STDIN and STDERR, it is recommended to `set PYTHONIOENCODING=utf8` in order to read/write using the UTF-8 encoding.
 # [< ...] if the input file is specified in replacement of STDIN, before you have set `PYTHONIOENCODING`, the file must be encoded as ANSI (system locale). The first line should be 0 or 1, indicating the mode to be SJIS2GBK or GBK2SJIS.
 # [2> ...] redirects conversion output from STDERR to a specified file.
+
+# Note: When converting GBK to SJIS, it's possible to have multiple choices, e.g. '读' => '読' or '讀'; in such cases, the output will show all possibilities within brackets, e.g. '[読讀]', and you may want to replace such ambiguous conversions with your explicit preferred form.
+
 import sys
 with open('CHARS.txt', encoding='GBK') as f:
   exec(f.read(), globals())
@@ -17,6 +20,7 @@ for i in range(len(SJIS_CHARS)):
   elif mode == 1:
     c = GBK_CHARS[i]
     if c not in dictable: dictable[c] = SJIS_CHARS[i]
+    else: dictable[c] += SJIS_CHARS[i] # multiple choices
   else: exit()
 while True:
   try:
@@ -31,7 +35,7 @@ while True:
       print(char, end='', file=sys.stderr); continue
     try:
       new_char = dictable[char]
-      print(new_char, end='', file=sys.stderr)
+      print(("[%s]" % new_char) if len(new_char) > 1 else new_char, end='', file=sys.stderr) # take into consideration multiple choices
     except: # undefined
       print("\U00016e3f", end='', file=sys.stderr)
   print(file=sys.stderr)

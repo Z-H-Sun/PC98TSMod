@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
+# encoding: binary
 
-YES = $*.delete('-y')
+require '../common'
+require './P58common'
+
 if (i = $*.index('-d'))
   SEARCH_DEPTH = $*.delete_at(i+1).to_i
   $*.delete_at(i)
@@ -9,56 +12,6 @@ else
 end
 BMPfName = $*[0]
 
-PALETTE = [ # BGR (RGB reversed); see also: unpackP58.rb
-0x44, 0x44, 0x44, # 0
-0x22, 0x44, 0x77, # 1
-0x44, 0x66, 0x99, # 2
-0x66, 0x88, 0xBB, # 3
-0x88, 0xAA, 0xDD, # 4
-0xAA, 0xCC, 0xFF, # 5
-0x66, 0x66, 0xDD, # 6
-0x88, 0x88, 0xFF, # 7
-0xAA, 0xCC, 0xAA, # 8
-0xCC, 0xEE, 0xCC, # 9
-0xBB, 0x88, 0x88, # A
-0xDD, 0xAA, 0xAA, # B
-0xFF, 0xCC, 0xCC, # C
-0x66, 0x66, 0x66, # D
-0xCC, 0xCC, 0xCC, # E
-0xFF, 0xFF, 0xFF] # F
-
-### trifling stuff
-alias _raise raise
-WIN_OS = (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM)
-def pause
-  if WIN_OS then system('pause') else print 'Press <ENTER> to continue ...'; STDIN.gets end
-end
-def printErr
-  print $!.class; print ': '; puts $!
-  puts $@[1..-1].join "\n"
-  pause unless YES # do not immediately quit
-  exit!
-end
-def raise(*argv)
-  _raise(*argv)
-rescue
-  printErr
-end
-### end of pre-process
-
-def getc(file, len=1, signed=false) # read byte(s) as char/short/long/long long
-  raise('Unexpected End of File.') if file.eof?
-  bytes = file.read(len)
-  case len
-  when 1; p = 'C' # char (unsigned, same below)
-  when 2; p = 'S' # short (word)
-  when 4; p = 'L' # long (dword)
-  when 8; p = 'Q' # long long
-  else raise('Unsupported byte array unpacking method.')
-  end
-  p.downcase! if signed
-  return bytes.unpack(p)[0]
-end
 def colorDiff(b,g,r, paletteInd) # stackoverflow.com/a/9085524
   b2 = PALETTE[paletteInd*3]
   g2 = PALETTE[paletteInd*3+1]
@@ -162,7 +115,7 @@ def main
     f.seek(offset)
     for i in heightEnumerator
       (width/8).times do
-        cArray[i].push f.read(4).unpack('N')[0] # big-endian 32-bit long long
+        cArray[i].push f.read(4).unpack('N')[0] # big-endian 32-bit long
       end
     end
 
@@ -172,7 +125,7 @@ def main
     f.seek(offset)
     for i in heightEnumerator
       (width/8).times do
-        colorInd_8pack = 0 # 8-byte long long, containing 8* pixels (4-bit, 0-15 from the palette) in the same row
+        colorInd_8pack = 0 # 8-nybble long, containing 8* pixels (4-bit, 0-15 from the palette) in the same row
         7.step(0, -1) do |j|
           colorInd_8pack |= bestColorInd(getc(f), getc(f), getc(f)) << (4*j)
         end
@@ -180,7 +133,7 @@ def main
       end
     end
 
-    tmpFName = "#{BMPfName.sub(/(.*)\..*$/, '\1')}_4bit.bmp"
+    tmpFName = suffix+'_4bit.bmp'
     f2 = open(tmpFName, 'wb')
     f2.write('BM') # see also: unpackP58.rb
     f2.write([74+width*height/2, 0, 74, 12, width, height, 1, 4].pack('L4S4'))
@@ -191,8 +144,9 @@ def main
     if WIN_OS and (!YES)
       print 'An image viewer window will show to display this new BMP. '; pause
       system "rundll32 shimgvw.dll, ImageView_Fullscreen #{File.expand_path(tmpFName).gsub('/', "\\")}"
-      print 'If you are satisfied, '; pause
+      print 'If you are satisfied, '
     end
+    pause unless YES
 
   else raise "The bit depth must be 4 (16-color) or 24 (RGB). Got #{bitDepth}."
   end
@@ -202,24 +156,10 @@ def main
   width /= 8 # now is 1/8 of width
   pSize = width*height
 
-  brgePlane = Array.new(4) {Array.new(width*height, 0)}
-  for y in 0...height
-    for x in 0...width
-      position = x*height+y
-      colorInd_8pack = cArray[y][x]
-      for i in 0...4 # the reverse Morton code; see also: unpackP58.rb
-        byte = (colorInd_8pack >> i) & 0x11111111 # 000A 000B 0000 000D 000E 000F 000G 000H after this step
-        byte ^= byte>> 3; byte &= 0x03030303 # 0000 00AB 0000 00CD 0000 00EF 0000 00GH after this step
-        byte ^= byte>> 6; byte &= 0x000f000f # 0000 0000 0000 ABCD 0000 0000 0000 EFGH after this step
-        byte ^= byte>>12; byte &= 0x000000ff # 0000 0000 0000 0000 0000 0000 ABCD EFGH after this step
-        brgePlane[i][position] = byte
-      end
-    end
-  end
-  puts 'Uncompressed BRGE color-plane data reconstructed.'
+  brgePlane = color2plane(cArray, width, height)
 
 # 3) Compress and write data!
-  tmpFName = "#{BMPfName.sub(/(.*)\..*$/, '\1')}.P58"
+  tmpFName = suffix+'.P58'
   if File.exist? tmpFName
     puts "Warning: #{tmpFName} already exists. If you choose to continue, the file will be overwritten! "
     pause unless YES
@@ -318,4 +258,4 @@ else
   rescue; printErr
   end
 end
-pause unless YES
+pauseExit

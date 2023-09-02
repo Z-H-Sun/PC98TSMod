@@ -6,19 +6,7 @@
 # https://www.win.tue.nl/~aeb/linux/fs/fat/fat-1.html
 # http://www.c-jump.com/CIS24/Slides/FAT/lecture.html
 
-def getc(file, len, signed=false) # read byte(s) as char/short/long/long long
-  raise('Unexpected EOF.') if file.eof?
-  bytes = file.read(len)
-  case len
-  when 1; p = 'C' # char (unsigned, same below)
-  when 2; p = 'S' # short (word)
-  when 4; p = 'L' # long (dword)
-  when 8; p = 'Q' # long long
-  else raise('Unsupported byte array unpacking method.')
-  end
-  p.downcase! if signed
-  return bytes.unpack(p)[0]
-end
+require '../common'
 
 FDI_HEADER_SIZE = 4096
 RESERVED_CLUSTER_LEN = 2 # in FAT12/16, the first cluster is Cluster #2
@@ -52,8 +40,13 @@ class DiskImage # processes raw disk image (.img)
     if @file.read(3).upcase == 'FAT'
       @fat_bits = @file.read(2).to_i
     else
-      print('Warning: Unknown file system. It is likely that the floppy disk image is formatted with FAT12 or FAT16 (between which FAT12 is more likely). If you want to give it a try, please type either `12` or `16` to indicate that the file system will be interpreted as FAT12 or FAT16, respectively: ')
-      @fat_bits = STDIN.gets.to_i
+      print('Warning: Unknown file system. It is likely that the floppy disk image is formatted with FAT12 or FAT16 (between which FAT12 is more likely). ')
+      if YES
+        puts('Will try FAT12 by default.'); @fat_bits = 12
+      else
+        print('If you want to give it a try, please type either `12` or `16` to indicate that the file system will be interpreted as FAT12 or FAT16, respectively: ')
+        @fat_bits = STDIN.gets.to_i
+      end
     end
     if @fat_bits == 12
       @eof = 0xFFF
@@ -155,7 +148,7 @@ class DiskImage # processes raw disk image (.img)
       end
     end
   end
-  def read(len) # in replacement of IO#seek
+  def read(len) # in replacement of IO#read
     result = ''
     while len > 0
       remaining_cluster_len = @cluster_size - @rel_offset
@@ -191,7 +184,7 @@ class DiskImage # processes raw disk image (.img)
     end
     return len0
   end
-  def eof?
+  def eof? # in replacement of IO#eof?
     raise('Unexpected EOF: The file spans only %d clusters, but the %d-th cluster is requested.' % [@file_cluster_len, @cluster_ind+1]) if @cluster_ind >= @file_cluster_len
     offset = @cluster_ind*@cluster_size + @rel_offset
     return (offset > @file_size)

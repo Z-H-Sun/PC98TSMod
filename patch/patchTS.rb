@@ -2,23 +2,17 @@
 # encoding: binary
 
 require './readFDI'
-f = __FILE__
-f = ExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
-def _exit
-  print('Press <Enter> to exit.'); STDIN.gets; exit
-end
-def pErr
-  print $!.class; print ': '; puts $!
-  puts $@[1..-1].join "\n"
-end
+
 begin
-  open(File.join(File.dirname(f), 'patchTS.txt'), 'rb') {|f| PLIST = eval(f.read)}
+  fp = 'patchTS.txt' # first check pwd
+  fp = File.join(APP_DIR, 'patchTS.txt') unless File.exist?(fp) # then check appdir
+  open(fp, 'rb') {|f| PLIST = eval(f.read)}
 rescue
-  puts '`patchTS.txt` not found or corrupted. Please place a functional `patchTS.txt` in the same folder as this program.'; _exit
+  puts '`patchTS.txt` not found or corrupted. Please place a functional `patchTS.txt` in the current folder or in the same folder as this program.'; pauseExit
 end
 unless (fName = $*[0])
-  puts "Usage: patchTS <exe or fdi filename> [exe filename]\n<exe/fdi>\tThe file to patch. It can be an executable, e.g., MTE.EXE, or an FDI image, e.g., mtower.fdi.\n  [exe]  \tIf an FDI image is given in the first param, you can specify the executable to patch that is located in the root dir in that FDI image. If this is left blank, this program will assume that the autoexec file is the one to patch.\nNote: This program will not backup your original EXE/FDI file. Be careful and backup the file yourself."
-  _exit
+  puts "Usage: patchTS [-y] <exe or fdi filename> [exe filename]\n   -y    \tOptional: Suppress confirming prompts on warning messages.\n<exe/fdi>\tThe file to patch. It can be an executable, e.g., MTE.EXE, or an FDI image, e.g., mtower.fdi.\n  [exe]  \tIf an FDI image is given in the first param, you can specify the executable to patch that is located in the root dir in that FDI image. If this is left blank, this program will assume that the autoexec file is the one to patch.\nNote: This program will not backup your original EXE/FDI file. Be careful and backup the file yourself."
+  pauseExit
 end
 f = open(fName, 'r+b')
 if f.read(2) != 'MZ'
@@ -26,7 +20,7 @@ if f.read(2) != 'MZ'
     exef = FDI.new(f)
   rescue
     puts fName + ' does not seem to be either an executable file or an FDI image.'
-    f.close; _exit
+    f.close; pauseExit
   end
   unless (exeFname=$*[1])
     begin
@@ -34,21 +28,26 @@ if f.read(2) != 'MZ'
     rescue
       puts $!; exeFname = 'MTE.EXE'
     end
-    print 'You have not specified which executable in the FDI image to be patched; therefore, the autoexec ' + exeFname + ' is assumed to be the one to work on. Is this correct? If yes, press <ENTER> to continue; if no, enter the filename: '
-    unless (tmp=STDIN.gets.strip).empty?
-      exeFname = tmp
+    print 'You have not specified which executable in the FDI image to be patched; therefore, the autoexec ' + exeFname + ' is assumed to be the one to work on.'
+    if YES
+      puts
+    else
+      print ' Is this correct? If yes, press <ENTER> to continue; if no, enter the filename: '
+      exeFname = tmp unless (tmp=STDIN.gets.strip).empty?
     end
   end
   begin
     exef.get_file_offsets(exeFname)
   rescue
-    pErr
-    f.close; _exit
+    printErr
+    f.close; pauseExit
   end
 else
   exef = f
 end
-print 'WARNING: This patch tool will not backup your original EXE/FDI file. To avoid potential loss of data, backup the file yourself before going on. You will be the only person who is responsible for any consequences; acknowledge this and press <ENTER> to continue.'; STDIN.gets; puts
+print 'WARNING: This patch tool will not backup your original EXE/FDI file. To avoid potential loss of data, backup the file yourself before going on. You will be the only person who is responsible for any consequences.'
+if YES then puts else print ' Please acknowledge this term and '; pause end
+puts
 
 begin
   puts 'You can manipulate the following items by entering their corresponding numbers. For example, `124` means that tasks #1, #2, and #4 will be performed.'; puts
@@ -67,8 +66,8 @@ begin
   end
   tasks = recommended if tasks.empty?
 rescue Exception
-  pErr
-  _exit
+  printErr
+  pauseExit
 end
 for i in tasks.uniq
   begin
@@ -106,26 +105,48 @@ for i in tasks.uniq
     if type.zero?
       print 'The data of the executable file does not seem right. Continue anyway? Enter `R` to restore to the original data or `P` to patch it or anything else to cancel: '
       case STDIN.gets.strip.downcase
-      when 'r'; type = 2
-      when 'p'; type = 1
+      when 'r'; type = 4
+      when 'p'; type = 3
       else; next
       end
     end
-    if type == 1
-      print 'This item is considered as ORIGINAL. Press <ENTER> to PATCH it, or type anything to cancel: '
-      next unless STDIN.gets.strip.empty?
+    if type % 2 == 1
+      if type == 1
+        print 'This item is considered as ORIGINAL'
+        if YES
+          puts ' and will be PATCHED.'
+        else
+          print '. Press <ENTER> to PATCH it, or type anything to cancel: '
+          next unless STDIN.gets.strip.empty?
+        end
+      end
       if warning1
         print warning1
-        print 'Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
-        next unless STDIN.gets.strip.empty?
+        if YES
+          puts
+        else
+          print ' Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
+          next unless STDIN.gets.strip.empty?
+        end
       end
     else
-      print 'This item is considered as PATCHED. Press <ENTER> to RESTORE it, or type anything to cancel: '
-      next unless STDIN.gets.strip.empty?
+      if type == 2
+        print 'This item is considered as PATCHED'
+        if YES
+          puts ' and will be RESTORED.'
+        else
+          print '. Press <ENTER> to RESTORE it, or type anything to cancel: '
+          next unless STDIN.gets.strip.empty?
+        end
+      end
       if warning2
         print warning2
-        print 'Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
-        next unless STDIN.gets.strip.empty?
+        if YES
+          puts
+        else
+          print ' Are you sure to continue anyway? Press <ENTER> to confirm, or type anything to cancel: '
+          next unless STDIN.gets.strip.empty?
+        end
       end
     end
     x = PLIST[i][4..-1] # ignore the first 4 elements
@@ -133,7 +154,7 @@ for i in tasks.uniq
     while !x.empty?
       offset = x.shift
       print ' +' unless whence.zero?
-      print (whence.zero? ? '%06X: ' : '%4s: ') % offset
+      print (whence.zero? ? '%08X: ' : '%6s: ') % offset
       len = x[0].size
       exef.seek(offset, whence)
       whence = 1 if whence.zero?
@@ -145,10 +166,10 @@ for i in tasks.uniq
       exef.write(d)
     end
   rescue
-    pErr
-    print 'Press <ENTER> to continue.'; STDIN.gets
+    printErr
+    pause unless YES
     next
   end
 end
 f.close
-_exit
+pauseExit

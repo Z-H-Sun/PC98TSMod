@@ -4,12 +4,19 @@
 # monkey patching to ensure backward compatibility with Ruby < 1.9
 unless String.instance_methods.include?(:ord)
   class String
-    def getbyte(i); return self[i]; end
+    alias :getbyte :[]
   end
 end
+def dropExt(fName) # filename without extname
+  slashInd = (fName.rindex(/[\/\\]/) || -1) + 1 # must exclude dirname first in case the dirname includes a dot
+  return fName[0, slashInd] + fName[slashInd..-1].sub(/(.*)\..*$/, '\1')
+end
+
 TXTfName = $*[0]
 unless TXTfName then puts("Usage: encodeETX <TXT filename>\n<path>.TXT\tThe TXT plain text file to be encoded. The encoded ETX file will be saved as <path>.ETX. Unlike `encodeGTX`, do not add a semicolon at each line end, and there is no restriction on the line break (EOL) sign you use. Again, `|` is used as a paragraph end sign."); exit end
-ETXfName = "#{TXTfName.sub(/(.*)\..*$/, '\1')}.ETX"
+ETXfName = dropExt(TXTfName) + '.ETX'
+puts "Warning: #{ETXfName} already exists, and this file will be overwritten!" if File.exist?(ETXfName)
+
 o = open(ETXfName, 'wb')
 open(TXTfName).each do |line|
   if line[0] == '|'
