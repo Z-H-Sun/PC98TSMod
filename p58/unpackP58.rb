@@ -5,13 +5,25 @@ require '../common'
 require './P58common'
 
 SHOW_CHAR_ART = $*.delete('-p')
+COLORIZE_CHAR_ART = $*.delete('-c')
 P58fName = $*
+
 def paintChar(colorInd_8pack)
   nybbles = ('%08X' % colorInd_8pack).scan(/./)
-  $charPaint += ' ' + nybbles.join(' ')
+  if COLORIZE_CHAR_ART
+    cNybbles = ''
+    nybbles.each {|i| cNybbles += "\e[48;5;#{CONSOLE_PALETTE[i.to_i(16)]}m #{i}"}
+    $charPaint += cNybbles
+  else
+    $charPaint += ' ' + nybbles.join(' ')
+  end
 end
 def paintCharNL()
-  $charPaint += "\n"
+  if COLORIZE_CHAR_ART
+    $charPaint += "\e[0m\n"
+  else
+    $charPaint += "\n"
+  end
   return $charPaint.size < 65536 # do not proceed if too large
 end
 
@@ -27,6 +39,7 @@ def main(p58)
   while !f.eof?
     iIndex += 1
     d = f.gets(sep='XX').chop.chop # image begins
+    puts
     if f.eof?
       puts "WARNING: No more data in #{p58}."
       break
@@ -66,7 +79,6 @@ def main(p58)
             k = d % 4 # remainder: 0,1: invert; 2,3: copy; 0,2: 1-byte char; 1,3: 2-byte word
             t = getc(f, k%2+1)
             if k > 1 # copy
-              bgrePlane[i] += r
               bgrePlane[i][pos, t] = bgrePlane[j][pos, t]
               pos += t
             else # invert
@@ -87,7 +99,7 @@ def main(p58)
     cArray = plane2color(bgrePlane, width, height)
 
     outFName = "#{suffix}_#{iIndex}.bmp"
-    g = open(outFName,'wb')
+    g = open(outFName, 'wb')
     g.write('BM') # bmp header signature
     g.write([74+pSize*4].pack('L')) # bmp size
     g.write("\0\0\0\0") # reserved
@@ -103,7 +115,7 @@ ensure
 end
 
 system('title') if WIN_OS # this will enable ENABLE_VIRTUAL_TERMINAL_PROCESSING in Win32 console mode, which is critical in enabling ANSI escape sequences
-puts "Usage: unpackP58 [-p [-c]] <p58 files>\n-p [-c]\tOptional: Turn on ASCII painting for each image (recommend off for large images; you may also need to enlarge the console window width (>= image width) in order to render the image properly). If the colorization '-c' option is not set, monochrome chars 0-f will be displayed; if set, colorized pixel backgrounds will be shown (In doing so, your terminal must support ANSI escape sequences).\n<paths>\tAn array of P58 image stack files to unpack into 16-color BMPs." if P58fName.empty?
+puts "Usage: unpackP58 [-y] [-p [-c]] <p58 files>\n-y     \tOptional: Suppress confirming prompts on warning messages.\n-p     \tOptional: Turn on ASCII painting for each image (recommend off for large images; you may also need to enlarge the console window width (>= image width) in order to render the image properly).\n   -c  \tIf the colorization '-c' option is not set, monochrome chars 0-f will be displayed; if set, colorized pixel backgrounds will be shown (In doing so, your terminal must support ANSI escape sequences).\n\n<paths>\tAn array of P58 image stack files to unpack into 16-color BMPs." if P58fName.empty?
 for p58 in P58fName
   begin; main(p58)
   rescue; printErr
