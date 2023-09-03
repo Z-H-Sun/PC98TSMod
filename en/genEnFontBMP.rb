@@ -6,7 +6,7 @@ FONTSIZE = $*[1].to_i
 FONTOFFSETX = $*[2].to_i
 FONTOFFSETY = $*[3].to_i
 FONTBOLD = $*[4].nil? ? 0 : 700
-if FONTNAME.nil? then puts "Usage: genEnFontBMP <font_name> [font_size] [font_offset_x] [font_offset_y] [font_bold]\nfont_size\tshould be adjusted to make sure each character fills but is still within a 16*16 cell.\nfont_offset\tshould be adjusted in the x and y directions to center the characters in the aforementioned cells.\nfont_bold\tIf left blank, a default font weight will be used; if set, a bond font (weight of 700) will be used.\n\nExample: genFontBMP 'Terminus (TTF) for Windows' 16 0 0 t"; exit end
+if FONTNAME.nil? then puts "Usage: genEnFontBMP <font_name> [font_size] [font_offset_x] [font_offset_y] [font_bold]\nfont_size\tshould be adjusted to make sure each character fills but is still within a 16*16 cell.\nfont_offset\tshould be adjusted in the x and y directions to center the characters in the aforementioned cells.\nfont_bold\tIf left blank, a default font weight will be used; if set, a bond font (weight of 700) will be used.\n\nExample: genEnFontBMP 'Terminus (TTF) for Windows' 16 0 0 t"; exit end
 
 require 'Win32API'
 SelectObj = Win32API.new('gdi32', 'SelectObject', 'll', 'l')

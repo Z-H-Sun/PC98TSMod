@@ -9,7 +9,7 @@ loadCharMap() {|key, val| $cmap[key] = val}
 
 GTXfName = $*[0]
 unless GTXfName
-  puts("Usage: decodeGTX [-y] [-p] [-o <offset>] <GTX filename>\n-y     \tSuppress confirming prompts on warning messages.\n-p     \tIndicates that `MTE.exe` has been patched to be able to display more Chinese (Kanji) chars, so 2-byte hiragana chars have not been encoded into 1-byte, and the default offset has been changed from 0xB0 to 0xF0.\n-o 0xNN\tIf the offset is not the default value (0xB0 or 0xF0), it can be assigned here. It must be an 8-bit unsigned int (0x00 to 0xFF).\n<path> \tThe GTX or CTX file to be decoded. The decoded, plain text file will be saved as <path>.TXT in UTF-8 encoding.\n\nIf any 1-byte or 2-byte GTX char could not be decoded, the prompt will be 'Conversion incomplete (... X retained)' where X > 0, and you will be able to see the retained chars in the form of [0xNNMM] in the output text file.")
+  puts("Usage: decodeGTX [-y] [-p] [-o <offset>] <GTX filename>\n-y     \tSuppress confirming prompts on warning messages.\n-p     \tIndicates that `MTE.exe` has been patched to be able to display more Chinese (Kanji) chars, so 2-byte hiragana chars have not been encoded into 1-byte, and the default offset has been changed from 0xB0 to 0xF0.\n-o 0xNN\tIf the offset is not the default value (0xB0 or 0xF0), it can be assigned here. It must be an 8-bit unsigned int (0x00 to 0xFF).\n\n<path> \tThe GTX or CTX file to be decoded. The decoded, plain text file will be saved as <path>.TXT in UTF-8 encoding.\n\nIf any 1-byte or 2-byte GTX char could not be decoded, the prompt will be 'Conversion incomplete (... X retained)' where X > 0, and you will be able to see the retained chars in the form of [0xNNMM] in the output text file.")
   pauseExit
 end
 

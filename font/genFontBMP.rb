@@ -4,7 +4,7 @@
 # This code works only on Windows OS with Chinese (GBK) locale!
 
 f = __FILE__
-f = ExerbExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
+f = ExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
 begin
   open(File.join(File.dirname(f), 'CHARS.txt'), 'rb') {|f| (eval(f.read))}
 rescue
@@ -42,7 +42,7 @@ SelectObj.call(hMemDC, hFont)
 #Win32API.new('gdi32', 'GetTextMetrics', 'lp', 'l').call(hMemDC, metrics)
 #p metrics.unpack('L11C9')
 
-TxtOut.call(hMemDC, 8-FONTOFFSETX, 8-FONTOFFSETY, "сю", 2)
+TxtOut.call(hMemDC, 8-FONTOFFSETX, 8-FONTOFFSETY, "О©╫О©╫", 2)
 SetBrColor.call(hMemDC, 0)
 Win32API.new('user32', 'FrameRect', 'lpl', 'l').call(hMemDC, [7,7,25,25].pack('L4'), hBrush) # draw the central frame
 buffer = "\0"*pSize
