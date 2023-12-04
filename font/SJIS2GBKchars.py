@@ -2,13 +2,13 @@
 # encoding: utf-8
 # usage SJIS2GBKchars.py [< ...] [2> ...]
 # If you want to redirect STDIN and STDERR, it is recommended to `set PYTHONIOENCODING=utf8` in order to read/write using the UTF-8 encoding.
-# [< ...] if the input file is specified in replacement of STDIN, before you have set `PYTHONIOENCODING`, the file must be encoded as ANSI (system locale). The first line should be 0 or 1, indicating the mode to be SJIS2GBK or GBK2SJIS.
+# [< ...] specifies the input file in replacement of STDIN. You should `set PYTHONIOENCODING=utf8` to read an UTF-8-encoded file; otherwise, the file should be encoded in ANSI (system locale). In addition, its first line should be 0 or 1, indicating the mode being SJIS2GBK or GBK2SJIS.
 # [2> ...] redirects conversion output from STDERR to a specified file.
 
-# Note: When converting GBK to SJIS, it's possible to have multiple choices, e.g. '读' => '読' or '讀'; in such cases, the output will show all possibilities within brackets, e.g. '[読讀]', and you may want to replace such ambiguous conversions with your explicit preferred form.
+# Note: When converting GBK to SJIS, it's possible to have multiple choices, e.g. '读' => '読' or '讀'; in such cases, the output will show all possibilities within brackets, e.g. '[読讀]', and you may want to replace such ambiguous conversions with your explicit preferred form. In addition, it's also possible that there is no corresponding counterpart in SJIS for a given GBK char, such as '呢', in which cases a placeholder '𖸿' (U+16e3f) will be given.
 
 import sys
-with open('CHARS.txt', encoding='GBK') as f:
+with open('CHARS.txt', encoding='UTF-8') as f:
   exec(f.read(), globals())
 enc = ('SJIS', 'GBK')
 mode = int(input("SJIS2GBK (0) or GBK2SJIS(1): "))

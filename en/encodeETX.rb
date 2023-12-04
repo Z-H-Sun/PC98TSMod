@@ -19,7 +19,7 @@ puts "Warning: #{ETXfName} already exists, and this file will be overwritten!" i
 
 o = open(ETXfName, 'wb')
 open(TXTfName).each do |line|
-  if line[0] == '|'
+  if line[0, 1] == '|'
     o.write "\0"
     next
   end

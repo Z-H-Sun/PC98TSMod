@@ -18,9 +18,9 @@ SetBrColor = Win32API.new('gdi32', 'SetDCBrushColor', 'll', 'l')
 WIDTH = 86 # columns
 HEIGHT = 95 # rows
 
-pWidth = WIDTH<<4
-pHeight = HEIGHT<<4
-pSize = (WIDTH*HEIGHT)<<5
+pWidth = WIDTH << 4
+pHeight = HEIGHT << 4
+pSize = (WIDTH*HEIGHT) << 5
 
 hMemDC = Win32API.new('gdi32', 'CreateCompatibleDC', 'l', 'l').call(0) # a memory DC of the screen
 hBrush = Win32API.new('gdi32', 'GetStockObject', 'l', 'l').call(18)

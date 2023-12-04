@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 # encoding: binary
 
-# This code works only on Windows OS with Chinese (GBK) locale!
+# This code works only on Windows OS (but regardless of language or locale)!
 
-f = __FILE__
-f = ExerbRuntime.filepath if $Exerb # __FILE__ will not work properly after packed by EXERB
+fc = 'CHARS.txt'
+fc = File.join(File.dirname($Exerb ? ExerbRuntime.filepath : __FILE__), 'CHARS.txt') unless File.exist?(fc) # __FILE__ will not work properly after packed by EXERB
 begin
-  open(File.join(File.dirname(f), 'CHARS.txt'), 'rb') {|f| (eval(f.read))}
+  open(fc, 'rb') {|f| (eval(f.read))}
 rescue
   puts '`CHARS.txt` not found or corrupted. Please place a functional `CHARS.txt` in the same folder as this program.'; exit
 end
@@ -21,16 +21,16 @@ if FONTNAME.nil? then puts "Usage: genFontBMP <font_name> [font_size] [font_offs
 require 'Win32API'
 SelectObj = Win32API.new('gdi32', 'SelectObject', 'll', 'l')
 DeleteObj = Win32API.new('gdi32', 'DeleteObject', 'l', 'l')
-TxtOut = Win32API.new('gdi32', 'TextOut', 'lllpl', 'l')
+TxtOut = Win32API.new('gdi32', 'TextOutW', 'lllpl', 'l') # Unicode (WideChar) version
 CrBMP = Win32API.new('gdi32', 'CreateCompatibleBitmap', 'lll', 'l')
 SetBrColor = Win32API.new('gdi32', 'SetDCBrushColor', 'll', 'l')
 
 WIDTH = 68 # 68 columns, 94 rows
 HEIGHT = 94
 
-pWidth = WIDTH<<4
-pHeight = HEIGHT<<4
-pSize = (WIDTH*HEIGHT)<<5
+pWidth = WIDTH << 4
+pHeight = HEIGHT << 4
+pSize = (WIDTH*HEIGHT) << 5
 
 hMemDC = Win32API.new('gdi32', 'CreateCompatibleDC', 'l', 'l').call(0) # a memory DC of the screen
 hBrush = Win32API.new('gdi32', 'GetStockObject', 'l', 'l').call(18)
@@ -42,7 +42,7 @@ SelectObj.call(hMemDC, hFont)
 #Win32API.new('gdi32', 'GetTextMetrics', 'lp', 'l').call(hMemDC, metrics)
 #p metrics.unpack('L11C9')
 
-TxtOut.call(hMemDC, 8-FONTOFFSETX, 8-FONTOFFSETY, "��", 2)
+TxtOut.call(hMemDC, 8-FONTOFFSETX, 8-FONTOFFSETY, "永".unpack('U').pack('S'), 1) # UTF-8 to WideChar
 SetBrColor.call(hMemDC, 0)
 Win32API.new('user32', 'FrameRect', 'lpl', 'l').call(hMemDC, [7,7,25,25].pack('L4'), hBrush) # draw the central frame
 buffer = "\0"*pSize
@@ -68,9 +68,11 @@ DeleteObj.call(hBitmap)
 SetBrColor.call(hMemDC, 0xFFFFFF)
 Win32API.new('user32', 'FillRect', 'lpl', 'l').call(hMemDC, [0,0,pWidth,pHeight].pack('L4'), hBrush) # white bkground
 Win32API.new('gdi32', 'SetBkMode', 'll', 'l').call(hMemDC, 1) # transparent mode
+
+WChars = GBK_CHARS.unpack('U*')
 for i in 0...WIDTH
   for j in 0...HEIGHT
-    TxtOut.call(hMemDC, 16*i-FONTOFFSETX, 16*j-FONTOFFSETY, GBK_CHARS[(i*HEIGHT+j)*2, 2], 2) # each GBK char has 2 bytes
+    TxtOut.call(hMemDC, 16*i-FONTOFFSETX, 16*j-FONTOFFSETY, [WChars[i*HEIGHT+j]].pack('S'), 1)
   end
 end
 buffer = "\0"*pSize

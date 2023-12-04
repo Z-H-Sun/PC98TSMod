@@ -20,16 +20,19 @@ URL = 'https://harjit.moe/jistables/' + CHARfName
 if File.exist?(CHARfName)
   FullCHARfName = CHARfName
 else
-  FullCHARfName = File.join(APP_DIR, CHARfName)
-  unless File.exist?(FullCHARfName)
+  fName = File.join(APP_DIR, CHARfName)
+  if File.exist?(fName)
+    FullCHARfName = fName
+  else
+    FullCHARfName = CHARfName
     if !system('curl -O ' + URL) # download the char mapping table
       print 'Will retry downlading the char map. '; pause unless YES
       system('curl -O ' + URL)
     end
-  end
-  unless File.exist?(FullCHARfName)
-    puts("Cannot download the char map! Alternatively, you can manually download the plain text file from #{URL}, place it in the same folder, and run this code again. ")
-    pauseExit
+    unless File.exist?(FullCHARfName)
+      puts("Cannot download the char map! Alternatively, you can manually download the plain text file from #{URL}, place it in the same folder, and run this code again. ")
+      pauseExit
+    end
   end
 end
 

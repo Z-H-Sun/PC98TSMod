@@ -25,7 +25,7 @@ loadCharMap() do |key, val|
   if c
     c = c.chr
   else
-    c = (key+(OFFSET<<8)) & 0xffff # this is a 16-bit short
+    c = (key + (OFFSET << 8)) & 0xffff # this is a 16-bit short
     c = [c].pack('n') # big-endian
   end
   $cmap[[val].pack('U')] = c
