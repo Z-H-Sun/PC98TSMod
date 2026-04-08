@@ -40,27 +40,36 @@ CONSOLE_PALETTE = [ # 256 Xterm console colors
 252, # d0d0d0 => E
 231] # ffffff => F (ref: https://www.ditig.com/256-colors-cheat-sheet)
 
+# precalculated look-up table to accelerate color data transform (this is 2x faster than calculation on-the-fly)
+C2P_LUT = {} # reverse Morton LUT; 000A 000B 000C 000D 000E 000F 000G 000H -> 0000 0000 0000 0000 0000 0000 ABCD EFGH (base-2)
+P2C_LUT = (0..255).map do |b| # 0000 0000 0000 0000 0000 0000 ABCD EFGH -> 000A 000B 000C 000D 000E 000F 000G 000H (base-2)
+=begin
+  r = 0
+  8.times do |j|
+    bit = (b >> j) & 1 # only the j-th bit (big-endian) is important for the j-th column
+    r |= bit << 4*j # each of the 4 color planes specifies 1 bit of the 4-bit color
+  end
+=end # although the for-loop (commented out above) might be easier for understanding, the efficiency is ~3x slower than the bit manipulation below
+  # below is the Morton 4D encode algorithm
+  # asume `b` writes 0000 0000 0000 0000 0000 0000 ABCD EFGH
+  r = (b | (b << 12)) & 0x000f000f # 0000 0000 0000 ABCD 0000 0000 0000 EFGH after this step
+  r = (r | (r << 6))  & 0x03030303 # 0000 00AB 0000 00CD 0000 00EF 0000 00GH after this step
+  r = (r | (r << 3))  & 0x11111111 # 000A 000B 000C 000D 000E 000F 000G 000H after this step
+  C2P_LUT[r] = b # assign the reverse LUT at the same time
+  r
+end
+
 def plane2color(bgrePlane, width, height)
   cArray = Array.new(height) {Array.new(width, 0)}
   fill_char_art = SHOW_CHAR_ART; $charPaint = '' if SHOW_CHAR_ART
-  for y in 0...height
-    for x in 0...width
+  height.times do |y|
+    width.times do |x|
       position = x*height+y
       colorInd_8pack = 0 # 8-nybble long, containing 8* pixels (4-bit, 0-15 from the palette) in the same row
-      for i in 0...4 # each 1-byte integer in the 2D array contains 8 bits, each specifying the colors in one of the adjacent 8 columns
-        byte = bgrePlane[i][position] # this determines the i-th bit of the color index
-=begin
-        for j in 0...8
-          bit = (byte >> j) & 1 # only the j-th bit (big-endian) is important for the j-th column
-          colorInd_8pack |= bit << 4*j+i # each of the 4 color planes specifies 1 bit of the 4-bit color
-        end
-=end # although the for-loop (commented out above) might be easier for understanding, the efficiency is ~3x slower than the bit manipulation below
-        # below is the Morton 4D encode algorithm
-        # asume `byte` writes 0000 0000 0000 0000 0000 0000 ABCD EFGH
-        byte ^= byte << 12; byte &= 0x000f000f # 0000 0000 0000 ABCD 0000 0000 0000 EFGH after this step
-        byte ^= byte <<  6; byte &= 0x03030303 # 0000 00AB 0000 00CD 0000 00EF 0000 00GH after this step
-        byte ^= byte <<  3; byte &= 0x11111111 # 000A 000B 0000 000D 000E 000F 000G 000H after this step
-        colorInd_8pack |= byte << i # i-th plane determines the i-th bit of the 4-bit color index
+      4.times do |i| # each 1-byte integer in the 2D array contains 8 bits, each specifying the colors in one of the adjacent 8 columns
+        colorInd_8pack |= P2C_LUT[
+          bgrePlane[i][position] & 0xff # this determines the i-th bit of the color index
+        ] << i # i-th plane determines the i-th bit of the 4-bit color index
       end
       cArray[y][x] = colorInd_8pack
 
@@ -79,16 +88,14 @@ end
 
 def color2plane(cArray, width, height)
   brgePlane = Array.new(4) {Array.new(width*height, 0)}
-  for y in 0...height
-    for x in 0...width
+  height.times do |y|
+    width.times do |x|
       position = x*height+y
       colorInd_8pack = cArray[y][x]
-      for i in 0...4 # the reverse Morton code; see `plane2color`
-        byte = (colorInd_8pack >> i) & 0x11111111 # 000A 000B 0000 000D 000E 000F 000G 000H after this step
-        byte ^= byte >>  3; byte &= 0x03030303 # 0000 00AB 0000 00CD 0000 00EF 0000 00GH after this step
-        byte ^= byte >>  6; byte &= 0x000f000f # 0000 0000 0000 ABCD 0000 0000 0000 EFGH after this step
-        byte ^= byte >> 12; byte &= 0x000000ff # 0000 0000 0000 0000 0000 0000 ABCD EFGH after this step
-        brgePlane[i][position] = byte
+      4.times do |i| # the reverse Morton code; see `plane2color`
+        brgePlane[i][position] = C2P_LUT[
+          (colorInd_8pack >> i) & 0x11111111
+        ]
       end
     end
   end
